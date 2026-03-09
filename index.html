@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задача про кота Бориса та ковбасу</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+
+        body {
+            font-family: "Cambria Math", "Cambria", "Noto Serif", "Times New Roman", serif;
+            background-color: #fcfcfc;
+            color: #1a1a1a;
+            font-size: 20px;
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Стилізація кроків */
+        .step {
+            opacity: 0;
+            transform: translateY(10px);
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        /* Лінії оформлення задачі */
+        .column-divider {
+            border-right: 2px solid #000;
+        }
+
+        .row-divider {
+            border-top: 2px solid #000;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            width: 100%;
+        }
+
+        /* Навігаційні стрілки */
+        .nav-arrow {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s ease;
+            color: rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-arrow.left { left: 0; }
+        .nav-arrow.right { right: 0; }
+
+        .arrow-icon {
+            font-size: 64px;
+            font-weight: 200;
+            user-select: none;
+        }
+
+        /* Контейнер для MathJax */
+        .math-block {
+            min-height: 1.6em;
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-arrow { width: 50px; }
+            .column-divider { border-right: none; border-bottom: 1px solid #ddd; padding-bottom: 1rem; margin-bottom: 1rem; }
+            .vertical-line-fix { border-right: 2px solid #000 !important; }
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12 min-h-screen flex flex-col items-center">
+
+    <!-- Навігація -->
+    <div id="prev-btn" class="nav-arrow left" title="Назад (←)"><span class="arrow-icon">‹</span></div>
+    <div id="next-btn" class="nav-arrow right" title="Далі (→, Пробіл)"><span class="arrow-icon">›</span></div>
+
+    <div class="max-w-6xl w-full bg-white shadow-sm border border-gray-100 p-8 md:p-12 rounded-lg relative">
+        <h1 class="text-center text-2xl font-bold mb-10 text-gray-800">Розрахунок маси ковбаси (Задача про кота Бориса)</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-0">
+            
+            <!-- Дано -->
+            <div class="md:col-span-3 pr-6 column-divider vertical-line-fix">
+                <h2 class="font-bold text-xl mb-6">Дано:</h2>
+                <div class="space-y-4">
+                    <div class="step math-block" id="step-1">$k = 40 \, \dfrac{\text{Н}}{\text{м}}$</div>
+                    <div class="step math-block" id="step-2">$x = 2,5 \, \text{см}$</div>
+                    <div class="step math-block" id="step-3">$g \approx 10 \, \dfrac{\text{Н}}{\text{кг}}$</div>
+                    <div class="step row-divider font-bold" id="step-6">
+                        $m - ?$
+                    </div>
+                </div>
+            </div>
+
+            <!-- СІ -->
+            <div class="md:col-span-2 px-6 column-divider">
+                <h2 class="font-bold text-xl mb-6 text-center">СІ</h2>
+                <div class="space-y-4 flex flex-col items-center">
+                    <div class="math-block"></div> <!-- Відступ для k -->
+                    <div class="step math-block" id="step-4">$0,025 \, \text{м}$</div>
+                </div>
+            </div>
+
+            <!-- Розв'язання та Обчислення -->
+            <div class="md:col-span-7 pl-6 md:pl-10">
+                <h2 class="step font-bold text-xl mb-6 text-center" id="step-5">Розв'язання</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Формули -->
+                    <div class="space-y-4">
+                        <div class="step math-block" id="step-7">$F_{\text{тяж}} = F_{\text{пруж}}$</div>
+                        <div class="step math-block" id="step-8">$mg = kx$</div>
+                        <div class="step math-block text-blue-700 font-bold" id="step-9">
+                            $m = \dfrac{kx}{g}$
+                        </div>
+                    </div>
+
+                    <!-- Розрахунки -->
+                    <div class="space-y-6 lg:border-l lg:border-gray-200 lg:pl-8">
+                        <div class="step math-block text-sm text-gray-600" id="step-10">
+                            $[m] = \dfrac{\frac{\text{Н}}{\text{м}} \cdot \text{м}}{\frac{\text{Н}}{\text{кг}}} = \text{кг}$
+                        </div>
+                        <div class="step math-block bg-blue-50 p-2 rounded" id="step-11">
+                            $m = \dfrac{40 \cdot 0,025}{10} = 0,1 \, (\text{кг})$
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Відповідь -->
+                <div class="step mt-12 pt-6 border-t border-dashed border-gray-300" id="step-12">
+                    <p class="text-xl">
+                        <span class="font-bold">Відповідь:</span> маса ковбаси $100 \, \text{г}$.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Підвал -->
+    <div class="fixed bottom-6 flex flex-col items-center gap-1">
+        <div class="text-gray-400 text-sm tracking-widest uppercase">
+            Крок <span id="step-counter" class="font-bold text-gray-600">0</span> / 12
+        </div>
+        <div class="flex gap-1">
+            <template id="dot-template">
+                <div class="w-2 h-2 rounded-full bg-gray-200 transition-colors"></div>
+            </template>
+            <div id="dot-container" class="flex gap-2"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 12;
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const counter = document.getElementById('step-counter');
+        const dotContainer = document.getElementById('dot-container');
+
+        // Ініціалізація точок прогресу
+        for(let i = 0; i <= totalSteps; i++) {
+            const dot = document.createElement('div');
+            dot.className = `w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === 0 ? 'bg-blue-500 w-4' : 'bg-gray-200'}`;
+            dotContainer.appendChild(dot);
+        }
+
+        function updateUI() {
+            // Оновлення видимих кроків
+            for (let i = 1; i <= totalSteps; i++) {
+                const el = document.getElementById(`step-${i}`);
+                if (el) {
+                    if (i <= currentStep) el.classList.add('visible');
+                    else el.classList.remove('visible');
+                }
+            }
+
+            // Оновлення лічильника
+            counter.innerText = currentStep;
+
+            // Оновлення точок
+            const dots = dotContainer.children;
+            for(let i = 0; i < dots.length; i++) {
+                if(i === currentStep) {
+                    dots[i].className = "w-1.5 h-1.5 rounded-full bg-blue-500 w-4 transition-all duration-300";
+                } else {
+                    dots[i].className = "w-1.5 h-1.5 rounded-full bg-gray-200 transition-all duration-300";
+                }
+            }
+
+            // Оновлення кнопок
+            prevBtn.style.opacity = currentStep === 0 ? "0" : "1";
+            prevBtn.style.pointerEvents = currentStep === 0 ? "none" : "auto";
+            nextBtn.style.opacity = currentStep === totalSteps ? "0.2" : "1";
+        }
+
+        function next() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            }
+        }
+
+        function prev() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateUI();
+            }
+        }
+
+        nextBtn.addEventListener('click', next);
+        prevBtn.addEventListener('click', prev);
+
+        // Клавіатура
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowRight' || e.code === 'Space') {
+                e.preventDefault();
+                next();
+            }
+            if (e.code === 'ArrowLeft') prev();
+        });
+
+        // Свайпи для мобільних
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        document.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchstartX - touchendX > 50) next();
+            if (touchendX - touchstartX > 50) prev();
+        });
+
+        window.MathJax = {
+            tex: { 
+                inlineMath: [['$', '$']], 
+                displayMath: [['$$', '$$']]
+            }
+        };
+
+        window.onload = updateUI;
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
